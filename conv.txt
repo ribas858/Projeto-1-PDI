@@ -26,4 +26,21 @@ ffmpeg -i input.jpg -f rawvideo -pix_fmt yuv420p output.yuv
 ffplay -f rawvideo -pixel_format yuv420p -video_size 200x200 0002.yuv
 
 %disp(['Comp U: ', num2str(k_u), ' Comp V: ', num2str(k_v)]);
+disp('FIM: ');
+disp(['Origem_UV: ', num2str(origem_UV)]);
+disp(['Comp Y: ', num2str(k_y)]);
+disp(['Comp U: ', num2str(k_u)]);
+disp(['Comp V: ', num2str(k_v)]);
+
+fprintf('\n');
+disp('Y: ');
+disp(Y);
+fprintf('\n');
+
+disp('U: ');
+disp(U);
+fprintf('\n');
+
+disp('V: ');
+disp(V);
 
