@@ -2,8 +2,8 @@ clear all;
 close all;
 clc;
 
-video = fopen("6p4p.yuv", "rb");
-
+video = fopen("6p4p_422.yuv", "rb");
+modo = 422
 w = 6;
 h = 4;
 
@@ -15,8 +15,21 @@ h = 4;
 
 Y = fread(video, w * h, 'uchar');
 
-U = fread(video, (w/2) * (h/2), 'uchar');
-V = fread(video, (w/2) * (h/2), 'uchar');
+if modo == 420
+  horizontal = 2;
+  vertical = 2;
+  U = fread(video, (w/2) * (h/2), 'uchar');
+  V = fread(video, (w/2) * (h/2), 'uchar');
+elseif modo == 422
+  horizontal = 2;
+  vertical = 1;
+  U = fread(video, (w/2) * h, 'uchar');
+  V = fread(video, (w/2) * h, 'uchar');
+elseif modo == 444
+  horizontal = 1;
+  vertical = 1;
+elseif modo == 400
+end
 
 imagem = zeros(h, w, 3);
 imshow(imagem);
@@ -46,7 +59,7 @@ for i = 1 : size(imagem, 1)
         intervalo_j = intervalo_j + 1;
         
         k_y = k_y + 1;
-        if intervalo_j == 2
+        if intervalo_j == horizontal
           intervalo_j = 0;
           if k_u < numel(U) && k_v < numel(V)  
             k_u =  k_u + 1;
@@ -54,10 +67,12 @@ for i = 1 : size(imagem, 1)
           end
           fprintf('\n');
         end
+        
+        disp(['Comp U: ', num2str(k_u), ' Comp V: ', num2str(k_v)]);
     end
     
     intervalo_i = intervalo_i + 1;
-    if intervalo_i == 2
+    if intervalo_i == vertical
       origem_UV = origem_UV + w/2;
       intervalo_i = 0;
     else
@@ -66,6 +81,7 @@ for i = 1 : size(imagem, 1)
     end
 end
 disp('FIM: ');
+disp(['Origem_UV: ', num2str(origem_UV)]);
 disp(['Comp Y: ', num2str(k_y)]);
 disp(['Comp U: ', num2str(k_u)]);
 disp(['Comp V: ', num2str(k_v)]);
