@@ -11,8 +11,6 @@ function [Y, U, V] = ler_yuv(arquivo, w, h, frame, formato)
     fseek(video, posicao_f, 'bof');
     Y = fread(video, w * h, 'uchar');
     
-    horizontal = 2;
-    vertical = 2;
     U = fread(video, (w/2) * (h/2), 'uchar');
     V = fread(video, (w/2) * (h/2), 'uchar');
   
@@ -22,8 +20,6 @@ function [Y, U, V] = ler_yuv(arquivo, w, h, frame, formato)
     fseek(video, posicao_f, 'bof');
     Y = fread(video, w * h, 'uchar');
     
-    horizontal = 2;
-    vertical = 1;
     U = fread(video, (w/2) * h, 'uchar');
     V = fread(video, (w/2) * h, 'uchar');
 
@@ -33,8 +29,6 @@ function [Y, U, V] = ler_yuv(arquivo, w, h, frame, formato)
     fseek(video, posicao_f, 'bof');
     Y = fread(video, w * h, 'uchar');
     
-    horizontal = 1;
-    vertical = 1;
     U = fread(video, w * h, 'uchar');
     V = fread(video, w * h, 'uchar');
     
@@ -43,7 +37,10 @@ function [Y, U, V] = ler_yuv(arquivo, w, h, frame, formato)
     posicao_f = tam_f * frame;
     fseek(video, posicao_f, 'bof');
     Y = fread(video, w * h, 'uchar');
+    U = [];
+    V = [];
 
   end
 
+  fclose(video);
 end
