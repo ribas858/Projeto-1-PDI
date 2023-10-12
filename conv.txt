@@ -64,6 +64,16 @@ for i = 1 : w_novo*h_novo
   end
 end
 
+for i = 1 : (w_novo * h_novo)
+  if Y_novo(i) == 0
+    if i - w_novo >= 1
+      Y_novo(i) = Y_novo(i-w_novo);
+    elseif i - 1 >= 1
+      Y_novo(i) = Y_novo(i-1);
+    end
+  end
+end
+
 
 
 
