@@ -1,4 +1,4 @@
-function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar(Y, U, V, w, h, mult, opt)
+function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar_2X(Y, U, V, w, h, vzs, opt)
   
   if strcmp(opt, "Y") || strcmp(opt, "all")
       
@@ -56,9 +56,9 @@ function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar(Y, U, V, w, h,
     
   end
   
-  mult = mult - 1;
-  if mult > 0
-    [Y_novo, w_novo, h_novo] = redimencionar(Y_novo, w_novo, h_novo, mult);
+  vzs = vzs - 1;
+  if vzs > 0
+    [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar_2X(Y_novo, U_novo, V_novo, w_novo, h_novo, vzs, opt);
   endif
-  disp(['mult: ', num2str(mult), ' w: ', num2str(w_novo), ' h: ', num2str(h_novo)]);
+  disp(['vzs: ', num2str(vzs), ' w: ', num2str(w_novo), ' h: ', num2str(h_novo)]);
 end

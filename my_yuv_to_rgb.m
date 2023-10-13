@@ -50,7 +50,7 @@ function imagem = my_yuv_to_rgb(Y, U, V, w, h, formato)
         imagem(i, j, 2) = G / 255;                                              %%
         imagem(i, j, 3) = B / 255;                                              %%
         
-        disp(['U: ', num2str(U(k_u)), ' V: ', num2str(V(k_v)), ' (i:', num2str(i), ', j:', num2str(j), ')' , ' (k_u:', num2str(k_u), ', k_v:', num2str(k_v), ')' ]);
+        %disp(['U: ', num2str(U(k_u)), ' V: ', num2str(V(k_v)), ' (i:', num2str(i), ', j:', num2str(j), ')' , ' (k_u:', num2str(k_u), ', k_v:', num2str(k_v), ')' ]);
         
         k_y = k_y + 1;            %% Avanço para o próximo Y
         
@@ -60,23 +60,23 @@ function imagem = my_yuv_to_rgb(Y, U, V, w, h, formato)
           if intervalo_horizontal == horizontal                                 %% Se o intervalo atingir o limite horizontal, então
                                                                                 %% devo mudar de cor(UV), pois a cada 
                                                                                 %% {valor de horizontal} pixels na
-            fprintf('\n');                                                                    %% horizontal temos um conjunto UV diferente
-            disp(['Limite horizontal: ', num2str(horizontal)]);
+            %fprintf('\n');                                                                    %% horizontal temos um conjunto UV diferente
+            %disp(['Limite horizontal: ', num2str(horizontal)]);
             
             intervalo_horizontal = 0;                                           %% Se atingiu o limite, zeramos
             if k_u < numel(U) && k_v < numel(V)                                 %% Teste para não estourar o vetor de UV
               k_u =  k_u + 1;     %% Avanço para o próximo U
               k_v =  k_v + 1;     %% Avanço para o próximo V
             end
-            disp(['dps:: U: ', num2str(U(k_u)), ' V: ', num2str(V(k_v))]);
-            fprintf('\n');
+            %disp(['dps:: U: ', num2str(U(k_u)), ' V: ', num2str(V(k_v))]);
+            %fprintf('\n');
 
           end
         end
         
     end %% fim do for "j"
-    disp(['Fim da linha: ', num2str(i)]);
-    fprintf('\n');
+    %disp(['Fim da linha: ', num2str(i)]);
+    %fprintf('\n');
     
     if modo ~= 400                %% Se o modo não for 4:0:0, eu tenho que lidar com os componentes UV
       
@@ -85,17 +85,17 @@ function imagem = my_yuv_to_rgb(Y, U, V, w, h, formato)
       if intervalo_vertical == vertical                                         %% Mesma lógica do horizontal
         intervalo_vertical = 0;                                                 %% Se atingiu o limite, zeramos
         
-        disp(['Origem: ', num2str(origem_UV)]);
+         %disp(['Origem: ', num2str(origem_UV)]);
         origem_UV = origem_UV + w/2;                                            %% Se atingiu o limite vertical, então temos um novo
                                                                                 %% ponto de partida no vetor UV
         if origem_UV >  numel(U) || origem_UV >  numel(V)
           origem_UV = 1;
         endif
-        disp(['Origem dps: ', num2str(origem_UV)]);        
+        %disp(['Origem dps: ', num2str(origem_UV)]);        
       else
-        fprintf('=======================\n');
-        disp(['Volta a origem.. ', num2str(origem_UV)]);
-        fprintf('\n');
+        %fprintf('=======================\n');
+        %disp(['Volta a origem.. ', num2str(origem_UV)]);
+        %fprintf('\n');
         k_u = origem_UV;                                                        %% Caso contrario, a origem para voltar no vetor UV
         k_v = origem_UV;                                                        %%  a cada linha, é a mesma
       end

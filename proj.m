@@ -22,7 +22,8 @@ formato = 420;
 %print_yuv_matriz_pixels(U_novo, numel(U_novo));
 
 
-[Y, U, V, w, h] = redimencionar(Y, U, V, w, h, 1, "UV");
+vzs = 2;
+[Y, U, V, w, h] = redimencionar_2X(Y, U, V, w, h, vzs, "all");
 imagem = my_yuv_to_rgb(Y, U, V, w, h, 420);
 imshow(imagem);
 
