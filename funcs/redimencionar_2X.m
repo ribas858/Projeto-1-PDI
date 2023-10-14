@@ -18,7 +18,8 @@ function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar_2X(Y, U, V, w,
                                                             %%
     w_novo = w * 2;                                         %% Calculamos a nova largura w, como sendo o dobro
     h_novo = h * 2;                                         %% O mesmo para altura h
-    Y_novo = preenche_pixels(Y_novo, w_novo, h_novo);       %% Chamamos a função para preencher os pixels pretos(0) com os valores de brilho correspondentes
+    Y_novo = preenche_pixels_brilho(Y_novo, w_novo, h_novo);
+                                                            %% Chamamos a função para preencher os pixels pretos(0) com os valores de brilho correspondentes
                                                             %%
     if ~strcmp(opt, "all")                                  %% Se a opção não for redimencionar tudo, e sim redimencionar o Y apenas,
       U_novo = U;                                           %% devolvemos os valores originais de U e V
@@ -37,18 +38,18 @@ function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar_2X(Y, U, V, w,
     V_aux = [];                                             %%
     intervalo = 0;                                          %% Contador para saber se chegou no limite mínimo de cores por linha nos vetores UV
     for i = 1 : size(U, 1)                                  %% For de 1 ate o tamanho de U. Poderua ser V, pois obrigatoriamente os 2 devem ter o mesmo tamanho
-       U_novo = [U_novo; U(i); U(i)];                       %% U_novo recebe ele mesmo concatenado com U na posição i duas vezes. Duplica os valores
-       V_novo = [V_novo; V(i); V(i)];                       %% V_novo recebe ele mesmo concatenado com V na posição i duas vezes. Duplica os valores
+       U_novo = [U_novo; U(i); 0];                          %% U_novo recebe ele mesmo concatenado com U na posição i, mais o zero
+       V_novo = [V_novo; V(i); 0];                          %% V_novo recebe ele mesmo concatenado com V na posição i, mais o zero
                                                             %%
-       U_aux = [U_aux; U(i); U(i)];                         %% Fazemos o mesmo para U_aux 
-       V_aux = [V_aux; V(i); V(i)];                         %%
+       U_aux = [U_aux; 0; 0];                               %% U_aux e V_aux cria a linha de zeros 
+       V_aux = [V_aux; 0; 0];                               %%
                                                             %%
        intervalo = intervalo + 1;                           %% Avança o intervalo
        
        if formato == 444                                    %% Se o formato for 4:4:4, a largura de repetir o conjunto é igual a largura w da imagem
          limite = w;                                        %%
        else                                                 %%
-         limite = w/2                                       %% Caso contrário, a largura de repetir o conjunto, é metade da largura w da imagem
+         limite = w/2;                                       %% Caso contrário, a largura de repetir o conjunto, é metade da largura w da imagem
        end                                                  %%
        
        if intervalo == limite                               %% Se o valor de intervalo atingir limite de repetir o conjunto
@@ -59,6 +60,8 @@ function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar_2X(Y, U, V, w,
          intervalo = 0;                                     %%
        endif                                                %%
     end                                                     %%
+    
+    [U_novo, V_novo] = preenche_pixels_cores(U_novo, V_novo, limite);
                                                             %%
     if ~strcmp(opt, "all")                                  %% Se a opção não for redimencionar tudo, e sim redimencionar o U e V,
       Y_novo = Y;                                           %% devolvemos Y com sua largura w e altura h originais
@@ -67,6 +70,12 @@ function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar_2X(Y, U, V, w,
     end                                                     %%
                                                             %%
   end                                                       %%
+  
+  if formato == 400
+    U_novo = U;
+    V_novo = V;
+  end
+  
   
   vzs = vzs - 1;                                            %% Diminuimos em 1, a quantidade de vezes que devemos chamar a função
   if vzs > 0                                                %% Se for maior que zero, chamamos redimencionar_2X novamente passando os valores atualizados

@@ -6,15 +6,16 @@ clc;
 w = 6;
 h = 4;
 frame = 134;
-formato = 420;
+formato = 444;
+arquivo = ["yuvs/6p4p_", num2str(formato), ".yuv"];
 
-[Y, U, V] = ler_yuv("yuvs/6p4p_420.yuv", w, h, frame, formato);
+[Y, U, V] = ler_yuv(arquivo, w, h, frame, formato);
 
 %U = U(1:3);
 %V = V(1:3);
 
-imagem = my_yuv_to_rgb(Y, U, V, w, h, formato);
-imshow(imagem);
+%imagem = my_yuv_to_rgb(Y, U, V, w, h, formato);
+%imshow(imagem);
 
 
 %print_yuv_matriz_pixels(U, w);
@@ -25,6 +26,7 @@ imshow(imagem);
 
 vzs = 1;
 [Y, U, V, w, h] = redimencionar_2X(Y, U, V, w, h, vzs, "all", formato);
+
 imagem = my_yuv_to_rgb(Y, U, V, w, h, formato);
 imshow(imagem);
 
