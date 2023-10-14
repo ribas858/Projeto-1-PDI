@@ -3,17 +3,17 @@ clear all;
 close all;
 clc;
 
-w = 352;
-h = 288;
+w = 6;
+h = 4;
 frame = 134;
 formato = 420;
 
-[Y, U, V] = ler_yuv("yuvs/foreman.yuv", w, h, frame, formato);
+[Y, U, V] = ler_yuv("yuvs/6p4p_420.yuv", w, h, frame, formato);
 
 %U = U(1:3);
 %V = V(1:3);
 
-imagem = my_yuv_to_rgb(Y, U, V, w, h, 420);
+imagem = my_yuv_to_rgb(Y, U, V, w, h, formato);
 imshow(imagem);
 
 
@@ -24,15 +24,17 @@ imshow(imagem);
 
 
 vzs = 1;
-[Y, U, V, w, h] = redimencionar_2X(Y, U, V, w, h, vzs, "all");
-imagem = my_yuv_to_rgb(Y, U, V, w, h, 420);
+[Y, U, V, w, h] = redimencionar_2X(Y, U, V, w, h, vzs, "all", formato);
+imagem = my_yuv_to_rgb(Y, U, V, w, h, formato);
 imshow(imagem);
 
-print_yuv_matriz_pixels(U, 12);
-print_yuv_matriz_pixels(V, 12);
+print_yuv_matriz_pixels(U, 24);
+print_yuv_matriz_pixels(V, 24);
 
-%U = [ 161; 161; 77; 77; 77; 77;   161; 161; 77; 77; 77; 77;      73; 174; 43 ];
-%V = [ 96; 96; 113; 113; 137; 137; 96; 96; 113; 113; 137; 137;   207; 122; 177];
+U = [ 161; 161; 77; 77; 77; 77; 161; 161; 77; 77; 77; 77;         73; 73; 174; 174; 43; 43; 73; 73; 174; 174; 43; 43 ];
+V = [ 96; 96; 113; 113; 137; 137; 96; 96; 113; 113; 137; 137;       207; 207; 122; 122; 177; 177; 207; 207; 122; 122; 177; 177; ];
+imagem = my_yuv_to_rgb(Y, U, V, w, h, 444);
+imshow(imagem);
 %[V_novo, w2, h2] = redimencionar(V, w, 1, 1, 1);
 %print_yuv_matriz_pixels(V_novo, w2);
 
