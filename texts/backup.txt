@@ -1,0 +1,101 @@
+
+
+backup =================================================================================
+
+for i = 1 : w_novo*h_novo
+  if Y_novo(i) == 0
+    if i - w_novo >= 1
+      Y_novo(i) = Y_novo(i-w_novo);
+    else
+      if i - 1 >= 1
+        Y_novo(i) = Y_novo(i-1);  
+      end
+    end
+  end
+end
+
+for i = 1 : (w_novo * h_novo)
+  if Y_novo(i) == 0
+    if i - w_novo >= 1
+      Y_novo(i) = Y_novo(i-w_novo);
+    elseif i - 1 >= 1
+      Y_novo(i) = Y_novo(i-1);
+    end
+  end
+end
+
+function [Y_novo, U_novo, V_novo, w_novo, h_novo] = redimencionar(Y, U, V, w, h, mult, brilho, crominancia)
+  
+  if crominancia == 1
+    U_novo = [];
+    U_aux = [];
+    intervalo = 0;
+    for i = 1 : size(U, 1)
+      U_novo = [U_novo; U(i)];
+      U_aux = [U_aux; U(i)];
+      intervalo = intervalo + 1;
+      if intervalo == w/2
+        U_novo = [U_novo; U_aux];
+        U_aux = [];
+        intervalo = 0;
+      end
+    end
+    
+    V_novo = [];
+    V_aux = [];
+    intervalo = 0;
+    for i = 1 : size(V, 1)
+      V_novo = [V_novo; V(i)];
+      V_aux = [V_aux; V(i)];
+      intervalo = intervalo + 1;
+      if intervalo == w/2
+        V_novo = [V_novo; V_aux];
+        V_aux = [];
+        intervalo = 0;
+      end
+    end
+    
+    if brilho == 0
+      Y_novo = Y;
+    end
+    w_novo = w * 2;
+    h_novo = h * 2;
+  end
+  
+  if brilho == 1
+  
+    Y_novo = [];
+    intervalo = 0;
+    
+    for i = 1 : size(Y, 1)
+       Y_novo = [Y_novo; Y(i); 0];
+       intervalo = intervalo + 1;
+       if intervalo == w
+         for j = 1 : (w*2)
+            Y_novo = [Y_novo; 0];
+         end
+         intervalo = 0;
+       endif
+    end
+    
+    w_novo = w * 2;
+    h_novo = h * 2;
+    
+    %print_yuv_matriz_pixels(Y_novo, w_novo);
+    
+    Y_novo = preenche_pixels(Y_novo, w_novo, h_novo);
+    if crominancia == 0
+      U_novo = U;
+      V_novo = V;
+    end
+    
+  end
+    
+  mult = mult - 1;
+  if mult > 0
+    [Y_novo, w_novo, h_novo] = redimencionar(Y_novo, w_novo, h_novo, mult, brilho, crominancia);
+  end
+  
+  disp(['mult: ', num2str(mult), ' w: ', num2str(w_novo), ' h: ', num2str(h_novo)]);
+  
+end
