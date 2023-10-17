@@ -1,8 +1,8 @@
 function imagem_filtrada = laplaciano(arquivo, tipo)
-  
+
   imagem = uint8(0);
-  if strcmp(class(arquivo), "char")
-    imagem = imread(arquivo);  
+  if strcmp(class(arquivo), "char") || strcmp(class(arquivo), "string")
+    imagem = imread(arquivo);
   elseif strcmp(class(arquivo), "uint8")
     imagem = arquivo;
   end
